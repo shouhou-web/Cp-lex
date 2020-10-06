@@ -50,7 +50,7 @@ void clearToken() {
 
 /* º∏÷÷≈–∂œ */ 
 int isSpace() {
-	return cur == ' ';
+	return cur == ' ' || cur == '\r';
 }
 
 int isNewline() {
