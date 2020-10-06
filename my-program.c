@@ -139,7 +139,8 @@ enum symbolList reserver() {
 /* 将token中的字符串转换为整型 */
 long long transNum() {
 	long long ans = 0;
-	for (int i=0; i<strlen(token); i++) {
+	int i;
+	for (i=0; i<strlen(token); i++) {
 		ans = ans * 10 + (token[i] - '0');
 	}
 	return ans;
@@ -184,12 +185,12 @@ int getsym()
 		}
 	}
 	else if (isPlus()) symbol = PLUSSY;
-	else if (isMinus()) symbol = MINUSSY;
+	// else if (isMinus()) symbol = MINUSSY;
 	else if (isStar()) symbol = STARSY;
 	else if (isLpar()) symbol = LPARSY;
 	else if (isRpar()) symbol = RPARSY;
 	else if (isComma()) symbol = COMSY;
-	else if (isSemi()) symbol = SEMISY;
+	// else if (isSemi()) symbol = SEMISY;
 	else if (isDivi()) {
 		getChar();
 		if (isStar())
@@ -205,19 +206,74 @@ int getsym()
 				} while(isStar());
 			} while(!isStar());
 		}
-		symbol = DIVSY;
+		symbol = DIVSY; // 这里可能有问题 
 		retract();	
 	}
-	else error();
+	// else error();
+	else return 1;
 	return 0;
 } 
 
-int main() {
-	in = fopen("test.txt","r");
-	int n = 10;
-	while(cur != EOF) {
+int main(int argc,char *argv[]) {
+	in = fopen(argv[1],"r");
+	// in = fopen("test.txt","r");
+	while(1) {
 		getChar();
-		getsym();
-		printf("%s,symbol=%d\n",token,symbol);
+		if (cur == EOF)
+			break;
+		if (getsym() == 0) {
+			switch(symbol) {
+				case BEGINSY:
+					printf("Begin\n");
+					break;
+				case ENDSY:
+					printf("End\n");
+					break;
+				case FORSY:
+					printf("For\n");
+					break;
+				case IFSY:
+					printf("If\n");
+					break;
+				case THENSY:
+					printf("Then\n");
+					break;
+				case ELSESY:
+					printf("Else\n");
+					break;
+				case IDSY:
+					printf("Ident(%s)\n",token);
+					break;
+				case INTSY:
+					printf("Int(%d)\n",num);
+					break;
+				case COLONSY:
+					printf("Colon\n");
+					break;
+				case PLUSSY:
+					printf("Plus\n");
+					break;
+				case STARSY:
+					printf("Star\n");
+					break;
+				case COMSY:
+					printf("Comma\n");
+					break;
+				case LPARSY:
+					printf("LParenthesis\n");
+					break;
+				case RPARSY:
+					printf("RParenthesis\n");
+					break;
+				case ASSIGNSY:
+					printf("Assign\n");
+					break;
+			}
+		}
+		else {
+			printf("Unknown\n");
+			break;
+		}
+		//	printf("%s,symbol=%d\n",token,symbol);
 	}
 }
