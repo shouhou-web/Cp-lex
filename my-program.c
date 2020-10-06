@@ -155,8 +155,6 @@ void error() {
 int getsym()
 {
 	clearToken();
-	while(isSpace() || isNewline() || isTab())	
-		getChar();
 	if (isLetter()) {
 		while(isLetter() || isDigit()) {
 			catToken();
@@ -206,8 +204,9 @@ int getsym()
 				} while(isStar());
 			} while(!isStar());
 		}
-		symbol = DIVSY; // 这里可能有问题 
-		retract();	
+		return 1;
+		// symbol = DIVSY; // 这里可能有问题 
+		// retract();	
 	}
 	// else error();
 	else return 1;
@@ -219,6 +218,8 @@ int main(int argc,char *argv[]) {
 	// in = fopen("test.txt","r");
 	while(1) {
 		getChar();
+		while(isSpace() || isNewline() || isTab())
+			getChar();
 		if (cur == EOF)
 			break;
 		if (getsym() == 0) {
